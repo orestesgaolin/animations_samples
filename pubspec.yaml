@@ -23,6 +23,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   very_good_analysis: ^2.0.0
+  build_web_compilers: ^2.16.5
+  build_runner: ^1.12.1
 
 flutter:
   uses-material-design: true
