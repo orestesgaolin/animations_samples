@@ -143,7 +143,7 @@ class LogoStack extends StatelessWidget {
     final largeXaxis = (width / 2 + elementSpacing) * oneToZero;
     final largeYaxis = -0.25 * size * oneToZero;
 
-    final clipSize = size / 2 * oneToZeroTwo;
+    // final clipSize = size / 2 * oneToZeroTwo;
     final yellowRadius = zeroToOne * width / 2;
 
     return Transform.scale(

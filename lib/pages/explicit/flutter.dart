@@ -12,7 +12,7 @@ class _FlutterAnimatedLogoState extends State<FlutterAnimatedLogo>
     with TickerProviderStateMixin {
   AnimationController animationController;
   int _currentDuration = 4;
-  bool _showSettings = false;
+  // bool _showSettings = false;
   bool _showClippingPaths = false;
   bool _showOriginal = false;
 
@@ -196,21 +196,21 @@ class _FlutterAnimatedLogoState extends State<FlutterAnimatedLogo>
     );
   }
 
-  void _decreaseDuration() {
-    setState(() {
-      _currentDuration = (_currentDuration - 1).clamp(1, 20);
-      animationController.duration = Duration(seconds: _currentDuration);
-    });
-    _startAnimation();
-  }
+  // void _decreaseDuration() {
+  //   setState(() {
+  //     _currentDuration = (_currentDuration - 1).clamp(1, 20);
+  //     animationController.duration = Duration(seconds: _currentDuration);
+  //   });
+  //   _startAnimation();
+  // }
 
-  void _increaseDuration() {
-    setState(() {
-      _currentDuration = (_currentDuration + 1).clamp(1, 20);
-      animationController.duration = Duration(seconds: _currentDuration);
-    });
-    _startAnimation();
-  }
+  // void _increaseDuration() {
+  //   setState(() {
+  //     _currentDuration = (_currentDuration + 1).clamp(1, 20);
+  //     animationController.duration = Duration(seconds: _currentDuration);
+  //   });
+  //   _startAnimation();
+  // }
 
   void _startAnimation() {
     animationController
