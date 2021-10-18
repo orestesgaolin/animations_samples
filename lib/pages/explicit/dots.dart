@@ -8,9 +8,9 @@ const _duration = Duration(milliseconds: 350);
 
 class DotsLoader extends StatefulWidget {
   const DotsLoader({
-    Key key,
+    Key? key,
     this.size = 20.0,
-  })  : assert(size != null && size > 0),
+  })  : assert(size > 0),
         super(key: key);
 
   /// Size of the largest dot
@@ -21,7 +21,7 @@ class DotsLoader extends StatefulWidget {
 }
 
 class _DotsLoaderState extends State<DotsLoader> {
-  Timer timer;
+  Timer? timer;
   int index = 0;
 
   @override
@@ -65,15 +65,15 @@ class _DotsLoaderState extends State<DotsLoader> {
 
 class _Dot extends StatelessWidget {
   const _Dot({
-    Key key,
+    Key? key,
     this.size,
     this.currentIndex,
     this.elementIndex,
   }) : super(key: key);
 
-  final double size;
-  final int currentIndex;
-  final int elementIndex;
+  final double? size;
+  final int? currentIndex;
+  final int? elementIndex;
 
   /// Return default size for the main element (index == elementIndex)
   ///
@@ -84,7 +84,7 @@ class _Dot extends StatelessWidget {
     if (currentIndex == elementIndex) {
       return 1.0;
     }
-    final absoluteIndex = (currentIndex - elementIndex).abs();
+    final absoluteIndex = (currentIndex! - elementIndex!).abs();
     final isNeighbourToMainPoint = absoluteIndex == 1;
     if (isNeighbourToMainPoint) {
       return 0.75;
@@ -96,8 +96,8 @@ class _Dot extends StatelessWidget {
   Widget build(BuildContext context) {
     final fraction = getFraction();
     return SizedBox(
-      height: size + 4,
-      width: size + 4,
+      height: size! + 4,
+      width: size! + 4,
       child: Center(
         child: AnimatedContainer(
           duration: _duration,
@@ -105,8 +105,8 @@ class _Dot extends StatelessWidget {
             color: Colors.white.withOpacity(fraction),
             shape: const CircleBorder(),
           ),
-          height: fraction * size,
-          width: fraction * size,
+          height: fraction * size!,
+          width: fraction * size!,
         ),
       ),
     );

@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'Animations Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        scrollbarTheme: ScrollbarThemeData(isAlwaysShown: true),
       ),
       debugShowCheckedModeBanner: false,
       home: Dashboard(),
@@ -90,9 +91,9 @@ class _DashboardState extends State<Dashboard> {
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({
-    Key key,
-    @required this.onTap,
-    @required this.pages,
+    Key? key,
+    required this.onTap,
+    required this.pages,
     this.selectedIndex = 0,
   }) : super(key: key);
 
@@ -106,6 +107,7 @@ class AppDrawer extends StatelessWidget {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
+        controller: ScrollController(),
         children: <Widget>[
           DrawerHeader(
             child: Padding(
@@ -142,7 +144,7 @@ class AppDrawer extends StatelessWidget {
 
 class ThinDivider extends StatelessWidget {
   const ThinDivider({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

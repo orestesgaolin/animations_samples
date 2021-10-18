@@ -55,9 +55,9 @@ class _TweenPageControllerState extends State<TweenPageController> {
 }
 
 class TweenAnimationDemo extends StatelessWidget {
-  const TweenAnimationDemo({Key key, this.scale}) : super(key: key);
+  const TweenAnimationDemo({Key? key, this.scale}) : super(key: key);
 
-  final double scale;
+  final double? scale;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +66,7 @@ class TweenAnimationDemo extends StatelessWidget {
         duration: Duration(seconds: 2),
         tween: Tween<double>(begin: 0.0, end: scale ?? 1.0),
         curve: Curves.easeInOut,
-        builder: (context, value, child) {
+        builder: (context, dynamic value, child) {
           return Transform.scale(
             scale: value,
             child: child,

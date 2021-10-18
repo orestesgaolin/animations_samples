@@ -2,7 +2,7 @@ part of '../staggered_animations.dart';
 
 class _Row3 extends StatelessWidget {
   const _Row3({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -20,13 +20,7 @@ class _Row3 extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline5,
                 ),
                 const Gap(16),
-                Row(
-                  children: const [
-                    _Indicator(),
-                    Gap(16),
-                    _Indicator(),
-                  ],
-                ),
+                _Indicator(),
                 const Gap(16),
                 const Center(
                   child: Icon(
@@ -48,13 +42,7 @@ class _Row3 extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline5,
                 ),
                 const Gap(16),
-                Row(
-                  children: const [
-                    _Indicator(),
-                    Gap(16),
-                    _Indicator(),
-                  ],
-                ),
+                _Indicator(),
                 const Gap(16),
                 const Center(
                   child: Icon(
@@ -73,7 +61,7 @@ class _Row3 extends StatelessWidget {
 
 class _Row2 extends StatelessWidget {
   const _Row2({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -91,13 +79,7 @@ class _Row2 extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline5,
                 ),
                 const Gap(16),
-                Row(
-                  children: const [
-                    _Indicator(),
-                    Gap(16),
-                    _Indicator(),
-                  ],
-                ),
+                _Indicator(),
                 const Gap(16),
                 const Gap(16),
                 SizedBox(
@@ -123,8 +105,6 @@ class _Row2 extends StatelessWidget {
                 Row(
                   children: const [
                     _Indicator(),
-                    Gap(16),
-                    _Indicator(),
                   ],
                 ),
                 const Gap(16),
@@ -146,7 +126,7 @@ class _Row2 extends StatelessWidget {
 
 class _Row1 extends StatelessWidget {
   const _Row1({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -183,7 +163,7 @@ class _Row1 extends StatelessWidget {
 
 class _Header extends StatelessWidget {
   const _Header({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -208,12 +188,13 @@ class _Header extends StatelessWidget {
 
 class _Indicator extends StatelessWidget {
   const _Indicator({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         const Icon(LineIcons.batteryAlt2Full),
         const Gap(16),
@@ -221,7 +202,10 @@ class _Indicator extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
             Text('42%'),
-            Text('John\'s battery'),
+            Text(
+              'John\'s battery',
+              overflow: TextOverflow.ellipsis,
+            ),
           ],
         ),
       ],
@@ -230,8 +214,8 @@ class _Indicator extends StatelessWidget {
 }
 
 class SmartCard extends StatelessWidget {
-  const SmartCard({Key key, this.child}) : super(key: key);
-  final Widget child;
+  const SmartCard({Key? key, this.child}) : super(key: key);
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
@@ -264,49 +248,60 @@ LineChartData sampleData() {
       show: false,
     ),
     titlesData: FlTitlesData(
+      topTitles: SideTitles(showTitles: false),
       bottomTitles: SideTitles(
         showTitles: true,
-        reservedSize: 12,
-        getTextStyles: (value) => const TextStyle(
+        reservedSize: 6,
+        getTextStyles: (context, value) => const TextStyle(
           color: Colors.black38,
           fontWeight: FontWeight.bold,
-          fontSize: 12,
+          fontSize: 11,
         ),
-        margin: 10,
+        interval: 1,
+        // margin: 10,
         getTitles: (value) {
-          switch (value.toInt()) {
-            case 2:
+          switch (value.toInt() % 7) {
+            case 1:
               return 'MON';
-            case 7:
-              return 'TUE';
-            case 12:
+            // case 2:
+            //   return 'TUE';
+            case 3:
               return 'WED';
+            // case 4:
+            //   return 'THU';
+            case 5:
+              return 'FRI';
+            case 7:
+              return 'SUN';
           }
           return '';
         },
       ),
+      rightTitles: SideTitles(showTitles: false),
       leftTitles: SideTitles(
         showTitles: true,
-        getTextStyles: (value) => const TextStyle(
-          color: Color(0xff4e4965),
+        getTextStyles: (context, value) => const TextStyle(
+          color: Colors.black38,
           fontWeight: FontWeight.bold,
-          fontSize: 12,
+          fontSize: 11,
         ),
-        getTitles: (value) {
-          switch (value.toInt()) {
-            case 1:
-              return '';
-            case 2:
-              return '20';
-            case 3:
-              return '';
-            case 4:
-              return '22';
-          }
-          return '';
-        },
-        margin: 8,
-        reservedSize: 20,
+
+        interval: 50,
+        // getTitles: (value) {
+        //   switch (value.toInt()) {
+        //     case 1:
+        //       return '';
+        //     case 2:
+        //       return '20';
+        //     case 3:
+        //       return '';
+        //     case 4:
+        //       return '22';
+        //   }
+        //   return '';
+        // },
+        margin: 4,
+        reservedSize: 30,
       ),
     ),
     borderData: FlBorderData(
@@ -329,7 +324,7 @@ LineChartData sampleData() {
     ),
     minX: 0,
     maxX: 14,
-    maxY: 4,
+    maxY: 100,
     minY: 0,
     lineBarsData: linesBarData1(),
   );
@@ -338,13 +333,18 @@ LineChartData sampleData() {
 List<LineChartBarData> linesBarData1() {
   final LineChartBarData lineChartBarData1 = LineChartBarData(
     spots: [
-      FlSpot(1, 1),
-      FlSpot(3, 1.5),
-      FlSpot(5, 1.4),
-      FlSpot(7, 3.4),
-      FlSpot(10, 2),
-      FlSpot(12, 2.2),
-      FlSpot(13, 1.8),
+      FlSpot(1, 80),
+      FlSpot(2, 40),
+      FlSpot(3, 30),
+      FlSpot(4, 60),
+      FlSpot(5, 80),
+      FlSpot(6, 70),
+      FlSpot(8, 30),
+      FlSpot(9, 100),
+      FlSpot(10, 85),
+      FlSpot(11, 64),
+      FlSpot(12, 62),
+      FlSpot(13, 49),
     ],
     isCurved: true,
     colors: [

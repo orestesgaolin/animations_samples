@@ -2,28 +2,28 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 class SlackLogo extends StatefulWidget {
-  SlackLogo({Key key, this.title}) : super(key: key);
+  SlackLogo({Key? key, this.title}) : super(key: key);
 
-  final String title;
+  final String? title;
 
   @override
   _SlackLogoState createState() => _SlackLogoState();
 }
 
 class _SlackLogoState extends State<SlackLogo> with TickerProviderStateMixin {
-  AnimationController animationController;
+  AnimationController? animationController;
 
   @override
   void initState() {
     super.initState();
     animationController = AnimationController(
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 3),
       vsync: this,
       lowerBound: 0.0,
       upperBound: 1.0,
     )
       ..forward()
-      ..repeat(reverse: false);
+      ..repeat(reverse: true);
   }
 
   @override
@@ -36,76 +36,80 @@ class _SlackLogoState extends State<SlackLogo> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final width = size.shortestSide / 2;
-    return Scaffold(
-      body: Center(
-        child: Container(
-          height: width,
-          width: width,
-          child: AnimatedBuilder(
-            animation: animationController,
-            builder: (context, anim) {
-              final scale = Tween<double>(begin: 1.0, end: 0.5).animate(
-                CurvedAnimation(
-                  parent: animationController,
-                  curve: Interval(
-                    0.3,
-                    0.8,
-                    curve: Curves.easeOut,
+    return ClipRect(
+      child: Scaffold(
+        body: Center(
+          child: Container(
+            height: width,
+            width: width,
+            child: AnimatedBuilder(
+              animation: animationController!,
+              builder: (context, anim) {
+                final scale = Tween<double>(begin: 1.0, end: 0.5).animate(
+                  CurvedAnimation(
+                    parent: animationController!,
+                    curve: Interval(
+                      0.3,
+                      0.8,
+                      curve: Curves.easeOut,
+                    ),
                   ),
-                ),
-              );
-              final oneToZero = Tween<double>(begin: 1.0, end: 0.0).animate(
-                CurvedAnimation(
-                  parent: animationController,
-                  curve: Interval(
-                    0.1,
-                    0.6,
-                    curve: Curves.easeOutCubic,
+                );
+                final oneToZero = Tween<double>(begin: 1.0, end: 0.0).animate(
+                  CurvedAnimation(
+                    parent: animationController!,
+                    curve: Interval(
+                      0.1,
+                      0.6,
+                      curve: Curves.easeOutCubic,
+                    ),
                   ),
-                ),
-              );
-              final oneToZeroTwo = Tween<double>(begin: 1.0, end: 0.19).animate(
-                CurvedAnimation(
-                  parent: animationController,
-                  curve: Interval(
-                    0.1,
-                    0.7,
-                    curve: Curves.easeOutCubic,
+                );
+                final oneToZeroTwo =
+                    Tween<double>(begin: 1.0, end: 0.19).animate(
+                  CurvedAnimation(
+                    parent: animationController!,
+                    curve: Interval(
+                      0.1,
+                      0.7,
+                      curve: Curves.easeOutCubic,
+                    ),
                   ),
-                ),
-              );
+                );
 
-              final zeroToOne = Tween<double>(begin: 0.0, end: 1.0).animate(
-                CurvedAnimation(
-                  parent: animationController,
-                  curve: Interval(
-                    0.1,
-                    0.7,
-                    curve: Curves.easeOutCubic,
+                final zeroToOne = Tween<double>(begin: 0.0, end: 1.0).animate(
+                  CurvedAnimation(
+                    parent: animationController!,
+                    curve: Interval(
+                      0.1,
+                      0.7,
+                      curve: Curves.easeOutCubic,
+                    ),
                   ),
-                ),
-              );
+                );
 
-              final rotation = Tween<double>(begin: 0.0, end: math.pi).animate(
-                CurvedAnimation(
-                  parent: animationController,
-                  curve: Interval(
-                    0.1,
-                    0.7,
-                    curve: Curves.easeOutCubic,
+                final rotation =
+                    Tween<double>(begin: 0.0, end: math.pi).animate(
+                  CurvedAnimation(
+                    parent: animationController!,
+                    curve: Interval(
+                      0.1,
+                      0.7,
+                      curve: Curves.easeOutCubic,
+                    ),
                   ),
-                ),
-              );
+                );
 
-              return LogoStack(
-                width,
-                scale.value,
-                oneToZero.value,
-                zeroToOne.value,
-                oneToZeroTwo.value,
-                rotation.value,
-              );
-            },
+                return LogoStack(
+                  width,
+                  scale.value,
+                  oneToZero.value,
+                  zeroToOne.value,
+                  oneToZeroTwo.value,
+                  rotation.value,
+                );
+              },
+            ),
           ),
         ),
       ),
@@ -121,7 +125,7 @@ class LogoStack extends StatelessWidget {
     this.zeroToOne,
     this.oneToZeroTwo,
     this.rotation, {
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final double size;
@@ -275,11 +279,11 @@ class LogoStack extends StatelessWidget {
 
 class SmallBlob extends StatelessWidget {
   const SmallBlob({
-    Key key,
-    @required this.width,
-    @required this.color,
-    @required this.turns,
-    @required this.radius,
+    Key? key,
+    required this.width,
+    required this.color,
+    required this.turns,
+    required this.radius,
   }) : super(key: key);
 
   final double width;
@@ -314,10 +318,10 @@ class SmallBlob extends StatelessWidget {
 
 class LargeBlob extends StatelessWidget {
   const LargeBlob({
-    Key key,
-    @required this.width,
-    @required this.color,
-    @required this.scale,
+    Key? key,
+    required this.width,
+    required this.color,
+    required this.scale,
   }) : super(key: key);
 
   final double width;

@@ -7,7 +7,7 @@ class AnimatedRadiatingIcon extends StatefulWidget {
 
 class _AnimatedRadiatingIconState extends State<AnimatedRadiatingIcon>
     with TickerProviderStateMixin {
-  AnimationController animationController;
+  late AnimationController animationController;
 
   @override
   void initState() {

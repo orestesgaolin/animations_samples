@@ -10,22 +10,22 @@ class FlutterAnimatedLogo extends StatefulWidget {
 
 class _FlutterAnimatedLogoState extends State<FlutterAnimatedLogo>
     with TickerProviderStateMixin {
-  AnimationController animationController;
+  late AnimationController animationController;
   int _currentDuration = 4;
   // bool _showSettings = false;
   bool _showClippingPaths = false;
   bool _showOriginal = false;
 
-  Animation<double> beamRotation;
-  Animation<double> shadowOpacity;
-  Animation<double> middleBeamTopClip;
-  Animation<double> middleBeamTopBounce;
-  Animation<double> bottomBeamBottomClip;
-  Animation<double> bottomBeamTranslation;
-  Animation<double> topBeamClip;
-  Animation<double> topBeamBounceUp;
-  Animation<double> topBeamBounceDown;
-  Animation<double> scaleTween;
+  late Animation<double> beamRotation;
+  late Animation<double> shadowOpacity;
+  late Animation<double> middleBeamTopClip;
+  late Animation<double> middleBeamTopBounce;
+  late Animation<double> bottomBeamBottomClip;
+  late Animation<double> bottomBeamTranslation;
+  late Animation<double> topBeamClip;
+  late Animation<double> topBeamBounceUp;
+  late Animation<double> topBeamBounceDown;
+  late Animation<double> scaleTween;
 
   @override
   void initState() {
@@ -226,15 +226,15 @@ class _FlutterAnimatedLogoState extends State<FlutterAnimatedLogo>
 // Use of this source code is governed by a BSD-style license that can be
 // found at the bottom of this file
 class AnimatedLogoPainter extends CustomPainter {
-  final double beamRotation;
-  final double shadowOpacity;
-  final double middleBeamTopClip;
-  final double bottomBeamBottomClip;
-  final double bottomBeamTranslation;
-  final double topBeamClip;
-  final double topBeamBounce;
-  final double middleBeamTopBounce;
-  final bool showClippingPaths;
+  final double? beamRotation;
+  final double? shadowOpacity;
+  final double? middleBeamTopClip;
+  final double? bottomBeamBottomClip;
+  final double? bottomBeamTranslation;
+  final double? topBeamClip;
+  final double? topBeamBounce;
+  final double? middleBeamTopBounce;
+  final bool? showClippingPaths;
 
   AnimatedLogoPainter({
     this.beamRotation,
@@ -262,14 +262,14 @@ class AnimatedLogoPainter extends CustomPainter {
     // the center of the given rect.
     canvas.translate((202.0 - 166.0) / 2.0, 0.0);
 
-    final lightPaint = Paint()..color = Colors.blue[400].withOpacity(0.8);
-    final darkPaint = Paint()..color = Colors.blue[900];
+    final lightPaint = Paint()..color = Colors.blue[400]!.withOpacity(0.8);
+    final darkPaint = Paint()..color = Colors.blue[900]!;
 
     _drawTopBeam(canvas, lightPaint);
     _drawBottomDarkBeam(canvas, darkPaint);
     _drawMiddleBeam(canvas, lightPaint);
 
-    if (beamRotation < math.pi / 2) {
+    if (beamRotation! < math.pi / 2) {
       // rotate shadow only when over beam
       drawShadows(canvas);
     }
@@ -297,9 +297,9 @@ class AnimatedLogoPainter extends CustomPainter {
     _rotateMiddleBeamAroundAxis(canvas);
 
     final topCornerPerspectiveOffset =
-        beamRotation < math.pi / 2 ? middleBeamTopBounce * 40.0 : 0.0;
+        beamRotation! < math.pi / 2 ? middleBeamTopBounce! * 40.0 : 0.0;
     final bottomCornerPerspectiveOffset =
-        beamRotation > math.pi / 2 ? (beamRotation - math.pi) * 20.0 : 0.0;
+        beamRotation! > math.pi / 2 ? (beamRotation! - math.pi) * 20.0 : 0.0;
     final xDistance = 100.4 - 51.6;
     final xDistance2 = 156.2 - 79.5;
 
@@ -312,7 +312,7 @@ class AnimatedLogoPainter extends CustomPainter {
       ..lineTo(79.5, 170.7);
 
     // we clip the middle beam before rotating
-    final distance = middleBeamTopClip * xDistance2;
+    final distance = middleBeamTopClip! * xDistance2;
     final margin = 30.0;
     final alongMargin = 50.0;
     final clippingPath = Path()
@@ -326,7 +326,7 @@ class AnimatedLogoPainter extends CustomPainter {
 
     canvas.drawPath(middleBeam, lightPaint);
     canvas.restore();
-    if (showClippingPaths) {
+    if (showClippingPaths!) {
       canvas.save();
       canvas.drawPath(clippingPath, Paint()..color = Colors.pink);
       canvas.restore();
@@ -334,24 +334,24 @@ class AnimatedLogoPainter extends CustomPainter {
   }
 
   void _flipMiddleBeamWhenInTheMiddle(Canvas canvas) {
-    if (beamRotation > math.pi / 2) {
+    if (beamRotation! > math.pi / 2) {
       // flip the middle beam when on the left side
       final rot2 = RotationMatrix(93.45, 128.85, 0.0, -1, 1, 0.0, math.pi);
-      final mtx2 = rot2.getMatrix();
+      final mtx2 = rot2.getMatrix()!;
       canvas.transform(mtx2);
     }
   }
 
   void _rotateMiddleBeamAroundAxis(Canvas canvas) {
-    final rot = RotationMatrix(79.5, 170.7, 0.0, 1, 1, 0.0, beamRotation);
-    final mtx = rot.getMatrix();
+    final rot = RotationMatrix(79.5, 170.7, 0.0, 1, 1, 0.0, beamRotation!);
+    final mtx = rot.getMatrix()!;
     canvas.transform(mtx);
   }
 
   void _drawTopBeam(Canvas canvas, Paint lightPaint) {
     canvas.save();
 
-    final clippingOffset = topBeamClip * (128.9);
+    final clippingOffset = topBeamClip! * (128.9);
     final clipPath = Path()
       ..moveTo(0.0, 128.9)
       ..lineTo(0.0, 0 + clippingOffset)
@@ -360,7 +360,7 @@ class AnimatedLogoPainter extends CustomPainter {
 
     canvas.clipPath(clipPath);
 
-    final topOffset = topBeamBounce * 3.0;
+    final topOffset = topBeamBounce! * 3.0;
 
     final Path topBeam = Path()
       ..moveTo(37.7, 128.9)
@@ -369,7 +369,7 @@ class AnimatedLogoPainter extends CustomPainter {
       ..lineTo(156.2 + topOffset, 10.4 - topOffset);
     canvas.drawPath(topBeam, lightPaint);
     canvas.restore();
-    if (showClippingPaths) {
+    if (showClippingPaths!) {
       canvas.save();
       canvas.drawPath(clipPath, Paint()..color = Colors.yellow);
       canvas.restore();
@@ -379,7 +379,7 @@ class AnimatedLogoPainter extends CustomPainter {
   void _drawBottomDarkBeam(Canvas canvas, Paint darkPaint) {
     canvas.save();
 
-    final clippingOffset = bottomBeamBottomClip * (191.6 - 114.9 + 45);
+    final clippingOffset = bottomBeamBottomClip! * (191.6 - 114.9 + 45);
     final clipPath = Path()
       ..moveTo(0.0, 0)
       ..lineTo(0.0, 191.6 - clippingOffset)
@@ -388,8 +388,8 @@ class AnimatedLogoPainter extends CustomPainter {
 
     canvas.clipPath(clipPath);
 
-    final xStartOffset = (51.6 - 9.8) * bottomBeamTranslation;
-    final yStartOffset = (142.8 - 101.0) * bottomBeamTranslation;
+    final xStartOffset = (51.6 - 9.8) * bottomBeamTranslation!;
+    final yStartOffset = (142.8 - 101.0) * bottomBeamTranslation!;
     final Path bottomDarkBeam = Path()
       ..moveTo(51.6 - xStartOffset, 142.8 - yStartOffset)
       ..lineTo(100.4, 191.6)
@@ -398,7 +398,7 @@ class AnimatedLogoPainter extends CustomPainter {
 
     canvas.drawPath(bottomDarkBeam, darkPaint);
     canvas.restore();
-    if (showClippingPaths) {
+    if (showClippingPaths!) {
       canvas.save();
       canvas.drawPath(clipPath, Paint()..color = Colors.green);
       canvas.restore();
@@ -410,15 +410,15 @@ class AnimatedLogoPainter extends CustomPainter {
       const Offset(87.2623 + 37.9092, 28.8384 + 123.4389),
       const Offset(42.9205 + 37.9092, 35.0952 + 123.4389),
       <Color>[
-        const Color(0xBFFFFFFF).withOpacity(shadowOpacity),
-        const Color(0xBFFCFCFC).withOpacity(shadowOpacity),
-        const Color(0xBFF4F4F4).withOpacity(shadowOpacity),
-        const Color(0xBFE5E5E5).withOpacity(shadowOpacity),
-        const Color(0xBFD1D1D1).withOpacity(shadowOpacity),
-        const Color(0xBFB6B6B6).withOpacity(shadowOpacity),
-        const Color(0xBF959595).withOpacity(shadowOpacity),
-        const Color(0xBF6E6E6E).withOpacity(shadowOpacity),
-        const Color(0xBF616161).withOpacity(shadowOpacity),
+        const Color(0xBFFFFFFF).withOpacity(shadowOpacity!),
+        const Color(0xBFFCFCFC).withOpacity(shadowOpacity!),
+        const Color(0xBFF4F4F4).withOpacity(shadowOpacity!),
+        const Color(0xBFE5E5E5).withOpacity(shadowOpacity!),
+        const Color(0xBFD1D1D1).withOpacity(shadowOpacity!),
+        const Color(0xBFB6B6B6).withOpacity(shadowOpacity!),
+        const Color(0xBF959595).withOpacity(shadowOpacity!),
+        const Color(0xBF6E6E6E).withOpacity(shadowOpacity!),
+        const Color(0xBF616161).withOpacity(shadowOpacity!),
       ],
       <double>[
         0.2690,
@@ -474,20 +474,20 @@ class AnimatedLogoPainter extends CustomPainter {
 /// available online on https://sites.google.com/site/glennmurray/Home/rotation-matrices-and-formulas
 class RotationMatrix {
   static const TOLERANCE = 1E-9;
-  Float64List _matrix;
+  Float64List? _matrix;
 
-  num m11;
-  num m12;
-  num m13;
-  num m14;
-  num m21;
-  num m22;
-  num m23;
-  num m24;
-  num m31;
-  num m32;
-  num m33;
-  num m34;
+  late num m11;
+  late num m12;
+  late num m13;
+  late num m14;
+  late num m21;
+  late num m22;
+  late num m23;
+  late num m24;
+  late num m31;
+  late num m32;
+  late num m33;
+  late num m34;
 
   /// Build a rotation matrix for rotations about the line through (a, b, c)
   /// parallel to [u, v, w] by the angle theta.
@@ -500,7 +500,7 @@ class RotationMatrix {
   /// [wUn] z-coordinate of the line's direction vector (unnormalized).
   /// [theta] The angle of rotation, in radians.
   RotationMatrix(num a, num b, num c, num uUn, num vUn, num wUn, num theta) {
-    num l;
+    late num l;
     assert((l = _longEnough(uUn, vUn, wUn)) > 0,
         'RotationMatrix: direction vector too short!');
 
@@ -550,9 +550,9 @@ class RotationMatrix {
   List<num> timesXYZ(num x, num y, num z) {
     final p = [0.0, 0.0, 0.0];
 
-    p[0] = m11 * x + m12 * y + m13 * z + m14;
-    p[1] = m21 * x + m22 * y + m23 * z + m24;
-    p[2] = m31 * x + m32 * y + m33 * z + m34;
+    p[0] = m11 * x + m12 * y + m13 * z + (m14 as double);
+    p[1] = m21 * x + m22 * y + m23 * z + (m24 as double);
+    p[2] = m31 * x + m32 * y + m33 * z + (m34 as double);
 
     return p;
   }
@@ -581,8 +581,8 @@ class RotationMatrix {
   ///
   /// Returns the product, in a [Vector3], representing the
   /// rotated point.
-  static List<num> rotPointFromFormula(num a, num b, num c, num u, num v, num w,
-      num x, num y, num z, num theta) {
+  static List<num>? rotPointFromFormula(num a, num b, num c, num u, num v,
+      num w, num x, num y, num z, num theta) {
     // We normalize the direction vector.
 
     num l;
@@ -607,7 +607,7 @@ class RotationMatrix {
     p[0] = (a * (v2 + w2) - u * (b * v + c * w - u * x - v * y - w * z)) *
             oneMinusCosT +
         x * cosT +
-        (-c * v + b * w - w * y + v * z) * sinT;
+        (-c * v + b * w - w * y + v * z) * (sinT as double);
 
     p[1] = (b * (u2 + w2) - v * (a * u + c * w - u * x - v * y - w * z)) *
             oneMinusCosT +
@@ -642,24 +642,24 @@ class RotationMatrix {
   /// Get the resulting matrix.
   ///
   /// Returns The matrix as [Matrix4].
-  Float64List getMatrix() {
+  Float64List? getMatrix() {
     if (_matrix == null) {
       _matrix = Float64List.fromList([
-        m11,
-        m21,
-        m31,
+        m11 as double,
+        m21 as double,
+        m31 as double,
         0,
-        m12,
-        m22,
-        m32,
+        m12 as double,
+        m22 as double,
+        m32 as double,
         0,
-        m13,
-        m23,
-        m33,
+        m13 as double,
+        m23 as double,
+        m33 as double,
         0,
-        m14,
-        m24,
-        m34,
+        m14 as double,
+        m24 as double,
+        m34 as double,
         1
       ]);
       // vector math is not supported online

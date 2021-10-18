@@ -1,5 +1,6 @@
 import 'dart:math' as math;
-import 'package:animations_sample/pages/implicit/loader.dart';
+import 'package:animations_sample/pages/implicit/implicit_counter.dart';
+import 'package:animations_sample/pages/implicit/implicit_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -14,17 +15,20 @@ class _ImplicitAnimationsState extends State<ImplicitAnimations> {
   int index = 0;
   final colors = [Colors.red, Colors.orange, Colors.green];
   final bColors = [Colors.transparent, Colors.red, Colors.green[800]];
-  final sizes = [120.0, 175.0, 500.0];
-  final radius = [0.0, 16.0, 190.0];
+  final sizes = [150.0, 195.0, 300.0];
+  final tSizes = [12.0, 16.0, 20.0];
+  final radius = [0.0, 16.0, 90.0];
   final elevations = [0.0, 16.0, 32.0];
 
   @override
   Widget build(BuildContext context) {
+    final text = 'Size: ${sizes[index]}, Radius: ${radius[index]}, '
+        'Elevation: ${elevations[index]}';
     return Stack(
       children: [
-        Positioned(
-          right: 0,
-          top: 0,
+        Text(text),
+        Align(
+          alignment: Alignment.topCenter,
           child: LoaderDemo(),
         ),
         Align(
@@ -42,19 +46,28 @@ class _ImplicitAnimationsState extends State<ImplicitAnimations> {
                 ),
               ],
               border: Border.all(
-                color: bColors[index],
+                color: bColors[index]!,
                 width: index * 10.0,
               ),
             ),
             duration: kThemeAnimationDuration,
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
+            curve: Curves.easeInOut,
+            child: InkWell(
               onTap: () {
                 setState(() {
                   index = (index + 1) % colors.length;
                 });
               },
-              child: Center(child: Text('AnimatedContainer')),
+              child: Center(
+                child: AnimatedDefaultTextStyle(
+                  duration: kThemeAnimationDuration,
+                  style: TextStyle(fontSize: tSizes[index]),
+                  child: Text(
+                    'AnimatedContainer',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
             ),
           ),
         ),
@@ -85,7 +98,7 @@ class _ImplicitAnimationsState extends State<ImplicitAnimations> {
             ),
             shape: BoxShape.rectangle,
             elevation: elevations[index],
-            color: Colors.blue[100],
+            color: Colors.blue[100]!,
             shadowColor: colors[index],
             duration: kThemeAnimationDuration,
           ),
@@ -97,7 +110,7 @@ class _ImplicitAnimationsState extends State<ImplicitAnimations> {
 
 class LoaderDemo extends StatefulWidget {
   const LoaderDemo({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -111,25 +124,32 @@ class _LoaderDemoState extends State<LoaderDemo> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(32.0),
-      child: Row(
+      child: Column(
         children: [
-          OutlinedButton(
-            onPressed: () {
-              setState(() {
-                progress = progress + 0.1;
-              });
-              if (progress >= 1.0) {
-                setState(() {
-                  progress = 0.0;
-                });
-              }
-            },
-            child: Text('Progress: ${progress.toStringAsFixed(1)}'),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              OutlinedButton(
+                onPressed: () {
+                  setState(() {
+                    progress = progress + 0.1;
+                  });
+                  if (progress >= 1.0) {
+                    setState(() {
+                      progress = 0.0;
+                    });
+                  }
+                },
+                child: Text('Progress: ${progress.toStringAsFixed(1)}'),
+              ),
+              const Gap(16),
+              SmoothLoadingIndicator(
+                progress: progress,
+              ),
+            ],
           ),
           const Gap(16),
-          SmoothLoadingIndicator(
-            progress: progress,
-          ),
+          SmoothCounter(progress: progress * 100),
         ],
       ),
     );

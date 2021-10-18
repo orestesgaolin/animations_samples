@@ -25,9 +25,9 @@ class AvatarAnimation extends StatelessWidget {
 /// the avatar their opacity decreases to 0.0.
 class _AnimatedAvatarDecoration extends StatefulWidget {
   const _AnimatedAvatarDecoration({
-    Key key,
-    @required this.child,
-    @required this.radius,
+    Key? key,
+    required this.child,
+    required this.radius,
   }) : super(key: key);
 
   final Widget child;
@@ -40,9 +40,9 @@ class _AnimatedAvatarDecoration extends StatefulWidget {
 
 class _AnimatedAvatarDecorationState extends State<_AnimatedAvatarDecoration>
     with TickerProviderStateMixin {
-  AnimationController animationController1;
-  AnimationController animationController2;
-  AnimationController animationController3;
+  AnimationController? animationController1;
+  AnimationController? animationController2;
+  AnimationController? animationController3;
 
   final radiatingTween = Tween<double>(begin: 1.0, end: 0.0);
 
@@ -83,12 +83,12 @@ class _AnimatedAvatarDecorationState extends State<_AnimatedAvatarDecoration>
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: animationController1,
+      animation: animationController1!,
       builder: (context, child) {
         final _padding = widget.radius * 0.75;
-        final anim1 = radiatingTween.animate(animationController1);
-        final anim2 = radiatingTween.animate(animationController2);
-        final anim3 = radiatingTween.animate(animationController3);
+        final anim1 = radiatingTween.animate(animationController1!);
+        final anim2 = radiatingTween.animate(animationController2!);
+        final anim3 = radiatingTween.animate(animationController3!);
 
         return Center(
           child: Stack(
@@ -138,9 +138,9 @@ const _kOpacityFraction = 1 / 5;
 
 class _RadiatingCircle extends StatelessWidget {
   const _RadiatingCircle({
-    Key key,
-    @required this.padding,
-    @required this.anim1,
+    Key? key,
+    required this.padding,
+    required this.anim1,
   }) : super(key: key);
 
   final double padding;

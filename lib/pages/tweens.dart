@@ -7,7 +7,24 @@ class Tweens extends StatefulWidget {
 }
 
 class _TweensState extends State<Tweens> with TickerProviderStateMixin {
-  AnimationController animationController;
+  AnimationController? animationController;
+
+  final curves = <String, Curve>{
+    'Curves.linear': Curves.linear,
+    'Curves.bounceIn': Curves.bounceIn,
+    'Curves.decelerate': Curves.decelerate,
+    'Curves.ease': Curves.ease,
+    'Curves.easeInOut': Curves.easeInOut,
+    'Curves.easeOutBack': Curves.easeOutBack,
+    'Curves.easeOutExpo': Curves.easeOutExpo,
+    'Curves.easeOutSine': Curves.easeOutSine,
+    'Curves.easeInOutExpo': Curves.easeInOutExpo,
+    'Curves.easeInOutCubicEmphasized': Curves.easeInOutCubicEmphasized,
+    'Curves.elasticIn': Curves.elasticIn,
+    'Curves.fastLinearToSlowEaseIn': Curves.fastLinearToSlowEaseIn,
+    'Curves.slowMiddle': Curves.slowMiddle,
+  };
+
   @override
   void initState() {
     super.initState();
@@ -47,59 +64,19 @@ class _TweensState extends State<Tweens> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final widget = ListView(
-      children: [
-        Text(
-          'Tweens and Curves',
-          style: Theme.of(context).textTheme.headline3,
-        ),
-        const Gap(32.0),
-        Stack(
+    final widget = ListView.separated(
+      itemCount: curves.entries.length,
+      separatorBuilder: (_, __) => const Gap(16),
+      itemBuilder: (context, index) {
+        final curve = curves.entries.elementAt(index);
+        return Stack(
           children: [
             Center(
               child: AnimatedBuilder(
-                animation: animationController,
-                builder: (context, child) {
-                  final position = getTween(animationController);
-                  return SlideTransition(
-                    position: position,
-                    child: child,
-                  );
-                },
-                child: Container(
-                  height: 200,
-                  width: 200,
-                  color: Colors.blue,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 200,
-              width: double.infinity,
-              child: CustomPaint(
-                painter: CurvePainter(Curves.linear),
-              ),
-            ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Curves.linear',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-              ),
-            ),
-          ],
-        ),
-        Stack(
-          children: [
-            Center(
-              child: AnimatedBuilder(
-                animation: animationController,
+                animation: animationController!,
                 builder: (context, child) {
                   final position =
-                      getCurvedTween(animationController, Curves.decelerate);
+                      getCurvedTween(animationController!, curve.value);
                   return SlideTransition(
                     position: position,
                     child: child,
@@ -108,7 +85,12 @@ class _TweensState extends State<Tweens> with TickerProviderStateMixin {
                 child: Container(
                   height: 200,
                   width: 200,
-                  color: Colors.red,
+                  color: Color.fromARGB(
+                    255,
+                    160 + 20 * (index % 3),
+                    180 + 30 * (index % 2),
+                    170 + 20 * (index % 5),
+                  ),
                 ),
               ),
             ),
@@ -116,7 +98,7 @@ class _TweensState extends State<Tweens> with TickerProviderStateMixin {
               height: 200,
               width: double.infinity,
               child: CustomPaint(
-                painter: CurvePainter(Curves.decelerate),
+                painter: CurvePainter(curve.value),
               ),
             ),
             Align(
@@ -124,96 +106,14 @@ class _TweensState extends State<Tweens> with TickerProviderStateMixin {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  'Curves.decelerate',
+                  '${curve.key}',
                   style: Theme.of(context).textTheme.headline6,
                 ),
               ),
             ),
           ],
-        ),
-        Stack(
-          children: [
-            Center(
-              child: AnimatedBuilder(
-                animation: animationController,
-                builder: (context, child) {
-                  final position = getCurvedTween(
-                    animationController,
-                    Curves.elasticInOut,
-                  );
-                  return SlideTransition(
-                    position: position,
-                    child: child,
-                  );
-                },
-                child: Container(
-                  height: 200,
-                  width: 200,
-                  color: Colors.green,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 200,
-              width: double.infinity,
-              child: CustomPaint(
-                painter: CurvePainter(Curves.elasticInOut),
-              ),
-            ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Curves.elasticInOut',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-              ),
-            ),
-          ],
-        ),
-        Stack(
-          children: [
-            Center(
-              child: AnimatedBuilder(
-                animation: animationController,
-                builder: (context, child) {
-                  final position = getCurvedTween(
-                    animationController,
-                    Curves.bounceOut,
-                  );
-                  return SlideTransition(
-                    position: position,
-                    child: child,
-                  );
-                },
-                child: Container(
-                  height: 200,
-                  width: 200,
-                  color: Colors.orange,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 200,
-              width: double.infinity,
-              child: CustomPaint(
-                painter: CurvePainter(Curves.bounceOut),
-              ),
-            ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Curves.bounceOut',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
+        );
+      },
     );
 
     return ClipRect(

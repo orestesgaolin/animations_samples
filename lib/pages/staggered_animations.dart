@@ -13,7 +13,8 @@ class StaggeredAnimations extends StatefulWidget {
 
 class _StaggeredAnimationsState extends State<StaggeredAnimations>
     with TickerProviderStateMixin {
-  AnimationController animationController;
+  late AnimationController animationController;
+
   @override
   void initState() {
     super.initState();
@@ -27,7 +28,7 @@ class _StaggeredAnimationsState extends State<StaggeredAnimations>
 
   @override
   void dispose() {
-    animationController?.dispose();
+    animationController.dispose();
     super.dispose();
   }
 
@@ -44,61 +45,85 @@ class _StaggeredAnimationsState extends State<StaggeredAnimations>
 
 class PageLayout extends StatelessWidget {
   const PageLayout({
-    Key key,
-    this.controller,
+    Key? key,
+    required this.controller,
   }) : super(key: key);
 
   final AnimationController controller;
 
   @override
   Widget build(BuildContext context) {
-    return HomePageAnimatedBuilder(
-      animation: controller,
-      builder: (context, child, animation) {
-        return ListView(
-          children: [
-            Gap(16),
-            Opacity(
-              opacity: animation.headerOpacity.value,
-              child: const _Header(),
-            ),
-            SlideTransition(
-              position: animation.row1Offset,
-              child: const _Row1(),
-            ),
-            SlideTransition(
-              position: animation.row2Offset,
-              child: const _Row2(),
-            ),
-            SlideTransition(
-              position: animation.row3Offset,
-              child: const _Row3(),
-            ),
-          ],
-        );
-      },
+    return Stack(
+      children: [
+        HomePageAnimatedBuilder(
+          animation: controller,
+          builder: (context, child, animation) {
+            return Column(
+              children: [
+                Gap(16),
+                Opacity(
+                  opacity: animation.headerOpacity.value,
+                  child: const _Header(),
+                ),
+                SlideTransition(
+                  position: animation.row1Offset,
+                  child: const _Row1(),
+                ),
+                SlideTransition(
+                  position: animation.row2Offset,
+                  child: const _Row2(),
+                ),
+                SlideTransition(
+                  position: animation.row3Offset,
+                  child: const _Row3(),
+                ),
+              ],
+            );
+          },
+        ),
+        Positioned(
+          right: 20,
+          top: 20,
+          child: IconButton(
+            onPressed: () {
+              if (controller.isAnimating) {
+                controller.stop();
+              } else {
+                controller
+                  ..forward()
+                  ..repeat();
+              }
+            },
+            icon: Icon(Icons.pause_circle),
+          ),
+        )
+      ],
     );
   }
 }
 
 class HomePageAnimatedBuilder extends StatelessWidget {
   const HomePageAnimatedBuilder({
-    Key key,
-    this.builder,
-    this.animation,
+    Key? key,
+    required this.builder,
+    required this.animation,
     this.child,
   }) : super(key: key);
 
   final MyTransitionBuilder builder;
   final Listenable animation;
-  final Widget child;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: animation,
       builder: (context, child) {
-        return builder(context, child, HomePageEnterAnimation(animation));
+        return builder(
+          context,
+          child,
+          HomePageEnterAnimation(animation as AnimationController),
+        );
       },
       child: child,
     );
@@ -107,7 +132,7 @@ class HomePageAnimatedBuilder extends StatelessWidget {
 
 typedef MyTransitionBuilder = Widget Function(
   BuildContext context,
-  Widget child,
+  Widget? child,
   HomePageEnterAnimation animation,
 );
 
