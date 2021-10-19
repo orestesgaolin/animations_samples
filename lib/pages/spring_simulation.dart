@@ -43,9 +43,10 @@ class _PhysicsAnimation extends State<PhysicsAnimation>
           children: [
             Positioned(
               top: controller.value,
-              height: 100,
-              width: 1000,
+              left: 0,
+              right: 0,
               child: Container(
+                height: 100,
                 color: Colors.redAccent,
               ),
             ),

@@ -43,6 +43,7 @@ class _DashboardState extends State<Dashboard> {
     AppPage('Tweens', Tweens()),
     AppPage('TweenAnimationBuilder', TweenPageController()),
     AppPage('Staggered animations', StaggeredAnimations()),
+    AppPage('Custom controller', CustomController()),
     AppPage('Spring simulation', PhysicsAnimation()),
     AppPage('Material animations', MaterialAnimationsDemo()),
     AppPage('Funvas', FunvasDemo()),

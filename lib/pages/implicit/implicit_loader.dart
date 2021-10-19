@@ -29,6 +29,7 @@ class _SmoothLoadingIndicatorState
       backgroundColor: widget.backgroundColor,
       color: widget.color,
       value: _progress!.evaluate(animation),
+      strokeWidth: 15,
     );
   }
 

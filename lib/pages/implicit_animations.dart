@@ -143,8 +143,12 @@ class _LoaderDemoState extends State<LoaderDemo> {
                 child: Text('Progress: ${progress.toStringAsFixed(1)}'),
               ),
               const Gap(16),
-              SmoothLoadingIndicator(
-                progress: progress,
+              SizedBox(
+                width: 50,
+                height: 50,
+                child: SmoothLoadingIndicator(
+                  progress: progress,
+                ),
               ),
             ],
           ),

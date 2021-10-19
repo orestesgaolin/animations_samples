@@ -72,7 +72,10 @@ class TweenAnimationDemo extends StatelessWidget {
             child: child,
           );
         },
-        child: Text('I\'m child'),
+        child: Text(
+          'Hello Droidcon',
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }
