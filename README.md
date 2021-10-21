@@ -10,4 +10,6 @@ This is a showcase of several animation approaches in Flutter:
 
 Feel free to have fun with the app and let me know what you think :)
 
+[Presentation PDF](docs/presentation.pdf)
+
 ![animation gif](docs/gif.gif)
