@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class AvatarAnimation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final radius = 150.0;
+    final radius = 100.0;
     return Center(
       child: _AnimatedAvatarDecoration(
         child: CircleAvatar(

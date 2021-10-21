@@ -22,7 +22,7 @@ class _PhysicsAnimation extends State<PhysicsAnimation>
         damping: 1,
       ),
       0.0,
-      600.0,
+      500.0,
       10,
     );
 

@@ -11,12 +11,30 @@ class ExplicitAnimations extends StatelessWidget {
         crossAxisCount: 2,
         children: [
           AvatarAnimation(),
-          FlutterAnimatedLogo(),
+          LogoWrapper(),
           SlackLogo(),
           DotsLoader(),
           AnimatedRadiatingIcon(),
         ],
       ),
     );
+  }
+}
+
+class LogoWrapper extends StatelessWidget {
+  const LogoWrapper({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(builder: (context, size) {
+      return ClipRect(
+        child: ColoredBox(
+          color: Colors.white,
+          child: FlutterAnimatedLogo(size: size.biggest.width),
+        ),
+      );
+    });
   }
 }

@@ -7,54 +7,67 @@ class _Row3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Flexible(
-          child: SmartCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Parking',
-                  style: Theme.of(context).textTheme.headline5,
+    final children = [
+      Flexible(
+        child: SmartCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Parking',
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              const Gap(16),
+              _Indicator(),
+              const Gap(16),
+              const Center(
+                child: Icon(
+                  LineIcons.car,
+                  size: 48,
                 ),
-                const Gap(16),
-                _Indicator(),
-                const Gap(16),
-                const Center(
-                  child: Icon(
-                    LineIcons.car,
-                    size: 48,
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
           ),
         ),
-        Flexible(
-          child: SmartCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Kitchen',
-                  style: Theme.of(context).textTheme.headline5,
+      ),
+      Flexible(
+        child: SmartCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Kitchen',
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              const Gap(16),
+              _Indicator(),
+              const Gap(16),
+              const Center(
+                child: Icon(
+                  LineIcons.cookie,
+                  size: 48,
                 ),
-                const Gap(16),
-                _Indicator(),
-                const Gap(16),
-                const Center(
-                  child: Icon(
-                    LineIcons.cookie,
-                    size: 48,
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
           ),
         ),
-      ],
+      ),
+    ];
+
+    return LayoutBuilder(
+      builder: (context, size) {
+        if (size.maxWidth > 600) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: children,
+          );
+        } else {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: children,
+          );
+        }
+      },
     );
   }
 }
@@ -66,60 +79,68 @@ class _Row2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Flexible(
-          child: SmartCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Living Room',
-                  style: Theme.of(context).textTheme.headline5,
+    final children = [
+      Flexible(
+        // constraints: BoxConstraints(maxWidth: 500),
+        child: SmartCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Living Room',
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              const Gap(16),
+              _Indicator(),
+              const Gap(16),
+              SizedBox(
+                height: 64,
+                child: LineChart(
+                  sampleData(),
                 ),
-                const Gap(16),
-                _Indicator(),
-                const Gap(16),
-                const Gap(16),
-                SizedBox(
-                  height: 64,
-                  child: LineChart(
-                    sampleData(),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-        Flexible(
-          child: SmartCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Bedroom',
-                  style: Theme.of(context).textTheme.headline5,
+      ),
+      Flexible(
+        // constraints: BoxConstraints(maxWidth: 500),
+        child: SmartCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Bedroom',
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              const Gap(16),
+              _Indicator(),
+              const Gap(16),
+              SizedBox(
+                height: 64,
+                child: LineChart(
+                  sampleData(),
                 ),
-                const Gap(16),
-                Row(
-                  children: const [
-                    _Indicator(),
-                  ],
-                ),
-                const Gap(16),
-                const Gap(16),
-                SizedBox(
-                  height: 64,
-                  child: LineChart(
-                    sampleData(),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-      ],
+      ),
+    ];
+    return LayoutBuilder(
+      builder: (context, size) {
+        if (size.maxWidth > 600) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: children,
+          );
+        } else {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: children,
+          );
+        }
+      },
     );
   }
 }
@@ -131,32 +152,40 @@ class _Row1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SmartCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Family Room',
-            style: Theme.of(context).textTheme.headline5,
+    return Row(
+      children: [
+        Expanded(
+          child: SmartCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Family Room',
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                Gap(16),
+                OverflowBar(
+                  spacing: 16,
+                  children: [
+                    _Indicator(),
+                    Gap(16),
+                    _Indicator(),
+                  ],
+                ),
+                Gap(16),
+                OverflowBar(
+                  spacing: 16,
+                  children: [
+                    _Indicator(),
+                    Gap(16),
+                    _Indicator(),
+                  ],
+                ),
+              ],
+            ),
           ),
-          Gap(16),
-          Row(
-            children: [
-              _Indicator(),
-              Gap(16),
-              _Indicator(),
-            ],
-          ),
-          Gap(16),
-          Row(
-            children: [
-              _Indicator(),
-              Gap(16),
-              _Indicator(),
-            ],
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

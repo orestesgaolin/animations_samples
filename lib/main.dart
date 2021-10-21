@@ -90,7 +90,7 @@ class _DashboardState extends State<Dashboard> {
   }
 }
 
-class AppDrawer extends StatelessWidget {
+class AppDrawer extends StatefulWidget {
   const AppDrawer({
     Key? key,
     required this.onTap,
@@ -103,12 +103,25 @@ class AppDrawer extends StatelessWidget {
   final int selectedIndex;
 
   @override
+  State<AppDrawer> createState() => _AppDrawerState();
+}
+
+class _AppDrawerState extends State<AppDrawer> {
+  final scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
-        controller: ScrollController(),
+        controller: scrollController,
         children: <Widget>[
           DrawerHeader(
             child: Padding(
@@ -119,13 +132,13 @@ class AppDrawer extends StatelessWidget {
               ),
             ),
           ),
-          for (final page in pages)
+          for (final page in widget.pages)
             ListTile(
               leading: Icon(Icons.chevron_right),
               title: Text(page.title),
-              selected: pages.indexOf(page) == selectedIndex,
+              selected: widget.pages.indexOf(page) == widget.selectedIndex,
               onTap: () {
-                onTap(pages.indexOf(page));
+                widget.onTap(widget.pages.indexOf(page));
                 if (Scaffold.of(context).isDrawerOpen) {
                   Navigator.of(context).pop();
                 }
@@ -136,6 +149,9 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.info_outline),
             title: Text('About'),
             onTap: () {
+              if (Scaffold.of(context).isDrawerOpen) {
+                Navigator.of(context).pop();
+              }
               showAboutDialog(
                 context: context,
                 children: [

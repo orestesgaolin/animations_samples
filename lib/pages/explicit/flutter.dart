@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'dart:typed_data';
 
 class FlutterAnimatedLogo extends StatefulWidget {
+  const FlutterAnimatedLogo({Key? key, this.size = 300}) : super(key: key);
+  final double size;
+
   @override
   _FlutterAnimatedLogoState createState() => _FlutterAnimatedLogoState();
 }
@@ -141,58 +144,55 @@ class _FlutterAnimatedLogoState extends State<FlutterAnimatedLogo>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  if (_showOriginal)
-                    FlutterLogo(
-                      size: 300,
-                      style: FlutterLogoStyle.markOnly,
-                    ),
-                  AnimatedBuilder(
-                    animation: animationController,
-                    builder: (context, child) {
-                      //workaround for small screens
-                      var scale = 1.0;
-                      if (MediaQuery.of(context).size.width < 600) {
-                        scale = 0.7;
-                      }
-                      return Transform.scale(
-                        scale: scaleTween.value * scale,
-                        child: CustomPaint(
-                          painter: AnimatedLogoPainter(
-                              beamRotation: beamRotation.value,
-                              middleBeamTopClip: middleBeamTopClip.value,
-                              middleBeamTopBounce: middleBeamTopBounce.value,
-                              shadowOpacity: shadowOpacity.value,
-                              bottomBeamBottomClip: bottomBeamBottomClip.value,
-                              bottomBeamTranslation:
-                                  bottomBeamTranslation.value,
-                              topBeamClip: topBeamClip.value,
-                              topBeamBounce: topBeamBounceUp.value +
-                                  topBeamBounceDown.value,
-                              showClippingPaths: _showClippingPaths),
-                          child: Container(
-                            height: 300 * scale,
-                            width: 300 * scale,
-                            color: Colors.transparent,
-                          ),
-                        ),
-                      );
-                    },
+    return Stack(
+      children: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                if (_showOriginal)
+                  FlutterLogo(
+                    size: widget.size,
+                    style: FlutterLogoStyle.markOnly,
                   ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
+                AnimatedBuilder(
+                  animation: animationController,
+                  builder: (context, child) {
+                    //workaround for small screens
+                    var scale = 1.0;
+                    if (MediaQuery.of(context).size.width < 600) {
+                      scale = 0.7;
+                    }
+                    return Transform.scale(
+                      scale: scaleTween.value * scale,
+                      child: CustomPaint(
+                        painter: AnimatedLogoPainter(
+                            beamRotation: beamRotation.value,
+                            middleBeamTopClip: middleBeamTopClip.value,
+                            middleBeamTopBounce: middleBeamTopBounce.value,
+                            shadowOpacity: shadowOpacity.value,
+                            bottomBeamBottomClip: bottomBeamBottomClip.value,
+                            bottomBeamTranslation: bottomBeamTranslation.value,
+                            topBeamClip: topBeamClip.value,
+                            topBeamBounce:
+                                topBeamBounceUp.value + topBeamBounceDown.value,
+                            showClippingPaths: _showClippingPaths),
+                        child: Container(
+                          height: widget.size * scale,
+                          width: widget.size * scale,
+                          color: Colors.transparent,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+      ],
     );
   }
 
