@@ -2,10 +2,12 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:funvas/funvas.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FunvasDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final funvas = 'https://github.com/creativecreatorormaybenot/funvas';
     return Column(
       children: [
         Expanded(
@@ -16,7 +18,17 @@ class FunvasDemo extends StatelessWidget {
             ),
           ),
         ),
-        Text('https://github.com/creativecreatorormaybenot/funvas'),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: InkWell(
+            onTap: () async {
+              if (await canLaunch(funvas)) {
+                launch(funvas);
+              }
+            },
+            child: Text(funvas),
+          ),
+        ),
       ],
     );
   }

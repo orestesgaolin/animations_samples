@@ -1,3 +1,4 @@
+export 'about.dart';
 export 'custom_controller.dart';
 export 'explicit_animations.dart';
 export 'funvas.dart';

@@ -135,7 +135,17 @@ class AppDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.info_outline),
             title: Text('About'),
-            onTap: () {},
+            onTap: () {
+              showAboutDialog(
+                context: context,
+                children: [
+                  AboutPage(),
+                ],
+              );
+              if (Scaffold.of(context).isDrawerOpen) {
+                Navigator.of(context).pop();
+              }
+            },
           ),
         ],
       ),

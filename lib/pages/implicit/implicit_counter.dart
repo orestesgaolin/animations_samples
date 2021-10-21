@@ -25,18 +25,15 @@ class _SmoothLoadingIndicatorState
   Widget build(BuildContext context) {
     final value = _progress?.evaluate(animation);
     return SizedBox(
-      width: 200,
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: Text(
-          (value != null ? value.toStringAsFixed(0) : '0') + '%',
-          style: widget.style ??
-              TextStyle(
-                fontSize: 46,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Fira Code',
-              ),
-        ),
+      width: 120,
+      child: Text(
+        (value != null ? value.toStringAsFixed(0) : '0') + '%',
+        style: widget.style ??
+            TextStyle(
+              fontSize: 46,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Fira Code',
+            ),
       ),
     );
   }

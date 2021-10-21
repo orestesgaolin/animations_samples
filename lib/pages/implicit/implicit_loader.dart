@@ -4,7 +4,7 @@ class SmoothLoadingIndicator extends ImplicitlyAnimatedWidget {
   SmoothLoadingIndicator({
     Key? key,
     required this.progress,
-    Duration duration = const Duration(milliseconds: 100),
+    Duration duration = const Duration(milliseconds: 200),
     Curve curve = Curves.linear,
     this.color = Colors.blue,
     this.backgroundColor = const Color(0xFFBBDEFB),
@@ -37,7 +37,7 @@ class _SmoothLoadingIndicatorState
   void forEachTween(TweenVisitor<dynamic> visitor) {
     _progress = visitor(
       _progress,
-      (widget.progress).clamp(0.01, 1.0),
+      (widget.progress).clamp(0.0, 1.0),
       (dynamic value) => Tween<double>(begin: value as double?),
     ) as Tween<double?>?;
   }

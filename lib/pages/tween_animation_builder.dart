@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class TweenPageController extends StatefulWidget {
@@ -13,8 +15,16 @@ class _TweenPageControllerState extends State<TweenPageController> {
     return ClipRect(
       child: Stack(
         children: [
-          TweenAnimationDemo(
-            scale: scale,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              TweenAnimationDemo(
+                scale: scale,
+              ),
+              TweenAnimationRotationDemo(
+                scale: scale,
+              ),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.all(32.0),
@@ -75,6 +85,32 @@ class TweenAnimationDemo extends StatelessWidget {
         child: Text(
           'Hello Droidcon',
           textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+}
+
+class TweenAnimationRotationDemo extends StatelessWidget {
+  const TweenAnimationRotationDemo({Key? key, this.scale}) : super(key: key);
+
+  final double? scale;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: TweenAnimationBuilder(
+        duration: Duration(seconds: 2),
+        tween: Tween<double>(begin: 0.0, end: scale ?? 1.0),
+        curve: Curves.easeInOut,
+        builder: (context, dynamic value, child) {
+          return Transform.rotate(
+            angle: (value - 1) / 5 * pi,
+            child: child,
+          );
+        },
+        child: FlutterLogo(
+          size: 200,
         ),
       ),
     );
