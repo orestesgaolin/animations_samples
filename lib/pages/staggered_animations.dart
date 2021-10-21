@@ -53,51 +53,53 @@ class PageLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        HomePageAnimatedBuilder(
-          animation: controller,
-          builder: (context, child, animation) {
-            return Column(
-              children: [
-                Gap(16),
-                Opacity(
-                  opacity: animation.headerOpacity.value,
-                  child: const _Header(),
-                ),
-                SlideTransition(
-                  position: animation.row1Offset,
-                  child: const _Row1(),
-                ),
-                SlideTransition(
-                  position: animation.row2Offset,
-                  child: const _Row2(),
-                ),
-                SlideTransition(
-                  position: animation.row3Offset,
-                  child: const _Row3(),
-                ),
-              ],
-            );
-          },
-        ),
-        Positioned(
-          right: 20,
-          top: 20,
-          child: IconButton(
-            onPressed: () {
-              if (controller.isAnimating) {
-                controller.stop();
-              } else {
-                controller
-                  ..forward()
-                  ..repeat();
-              }
+    return SingleChildScrollView(
+      child: Stack(
+        children: [
+          HomePageAnimatedBuilder(
+            animation: controller,
+            builder: (context, child, animation) {
+              return Column(
+                children: [
+                  Gap(16),
+                  Opacity(
+                    opacity: animation.headerOpacity.value,
+                    child: const _Header(),
+                  ),
+                  SlideTransition(
+                    position: animation.row1Offset,
+                    child: const _Row1(),
+                  ),
+                  SlideTransition(
+                    position: animation.row2Offset,
+                    child: const _Row2(),
+                  ),
+                  SlideTransition(
+                    position: animation.row3Offset,
+                    child: const _Row3(),
+                  ),
+                ],
+              );
             },
-            icon: Icon(Icons.pause_circle),
           ),
-        )
-      ],
+          Positioned(
+            right: 20,
+            top: 20,
+            child: IconButton(
+              onPressed: () {
+                if (controller.isAnimating) {
+                  controller.stop();
+                } else {
+                  controller
+                    ..forward()
+                    ..repeat();
+                }
+              },
+              icon: Icon(Icons.pause_circle),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
