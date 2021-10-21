@@ -13,8 +13,8 @@ class _ImplicitAnimationsState extends State<ImplicitAnimations> {
   Alignment alignment = Alignment.center;
 
   int index = 0;
-  final colors = [Colors.red, Colors.orange, Colors.green];
-  final bColors = [Colors.transparent, Colors.red, Colors.green[800]];
+  final colors = [Colors.blue, Colors.deepPurple, Colors.green];
+  final bColors = [Colors.transparent, Colors.purple, Colors.green[800]];
   final sizes = [150.0, 195.0, 300.0];
   final tSizes = [12.0, 16.0, 20.0];
   final radius = [0.0, 16.0, 90.0];
@@ -37,6 +37,24 @@ class _ImplicitAnimationsState extends State<ImplicitAnimations> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    index = (index + 1) % colors.length;
+                  });
+                },
+                child: AnimatedPhysicalModel(
+                  child: Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: Text('AnimatedPhysicalModel'),
+                  ),
+                  duration: kThemeAnimationDuration,
+                  shape: BoxShape.rectangle,
+                  elevation: elevations[index],
+                  color: Colors.blue[100]!,
+                  shadowColor: colors[index],
+                ),
+              ),
               AnimatedContainer(
                 width: sizes[index],
                 height: sizes[index],
@@ -72,24 +90,6 @@ class _ImplicitAnimationsState extends State<ImplicitAnimations> {
                       ),
                     ),
                   ),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    index = (index + 1) % colors.length;
-                  });
-                },
-                child: AnimatedPhysicalModel(
-                  child: Padding(
-                    padding: const EdgeInsets.all(32.0),
-                    child: Text('AnimatedPhysicalModel'),
-                  ),
-                  duration: kThemeAnimationDuration,
-                  shape: BoxShape.rectangle,
-                  elevation: elevations[index],
-                  color: Colors.blue[100]!,
-                  shadowColor: colors[index],
                 ),
               ),
               AnimatedOpacity(
