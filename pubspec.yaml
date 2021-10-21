@@ -6,7 +6,7 @@ publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -18,11 +18,12 @@ dependencies:
   gap: ^2.0.0
   google_fonts: ^2.0.0
   line_icons: ^2.0.1
+  url_launcher: ^6.0.12
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  very_good_analysis: ^2.0.0
+  very_good_analysis: ^2.3.0
   build_web_compilers: ^3.2.1
   build_runner: ^2.1.4
 
