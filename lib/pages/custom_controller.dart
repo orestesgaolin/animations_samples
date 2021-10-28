@@ -50,7 +50,7 @@ class _BoidsAnimationState extends State<BoidsAnimation>
         Expanded(
           child: LayoutBuilder(builder: (context, size) {
             return ColoredBox(
-              color: Colors.blue,
+              color: Colors.blue[800]!,
               child: AnimatedBuilder(
                 animation: simulation,
                 builder: (context, child) => Stack(
@@ -175,11 +175,12 @@ class BoidPainter extends CustomPainter {
     final scale = size.shortestSide / kSize / 2;
     canvas.translate(size.width / 4, size.height / 4);
     canvas.scale(scale);
-    canvas.save();
     for (var boid in boids) {
-      canvas.drawCircle(boid.position, 1.0, Paint()..color = Colors.white);
+      canvas.save();
+      // canvas.drawCircle(boid.position, 1.0, Paint()..color = Colors.white);
+      DashPainter(boid.position).paint(canvas, size);
+      canvas.restore();
     }
-    canvas.restore();
   }
 
   @override
@@ -386,5 +387,82 @@ class BoidSimulation extends ChangeNotifier {
       boid.dx = (boid.dx / speed) * speedLimit;
       boid.dy = (boid.dy / speed) * speedLimit;
     }
+  }
+}
+
+class DashPainter extends CustomPainter {
+  DashPainter(this.position);
+
+  final Offset position;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final leftLeg = true;
+    final rightLeg = true;
+
+    final body = Path()
+      ..addOval(
+        Rect.fromLTWH(
+          10,
+          10,
+          100,
+          100,
+        ),
+      );
+    final tail = Path()
+      ..moveTo(0, 20)
+      ..lineTo(40, 40)
+      ..lineTo(40, 80)
+      ..lineTo(0, 50);
+    final wing = Path()
+      ..moveTo(0, 40)
+      ..lineTo(45, 40)
+      ..relativeArcToPoint(Offset(0, 40), radius: Radius.circular(20))
+      ..lineTo(15, 80)
+      ..close();
+    final tip = Path()
+      ..moveTo(90, 50)
+      ..lineTo(140, 60)
+      ..lineTo(90, 60);
+    final eye = Path()..addOval(Rect.fromLTWH(80, 40, 10, 10));
+    final eyeWhite = Path()..addOval(Rect.fromLTWH(82.5, 42.5, 3, 3));
+    final top = Path()..addOval(Rect.fromLTWH(50, 6, 20, 10));
+    final legL = Path()
+      ..moveTo(50, 100)
+      ..lineTo(50, 130)
+      ..lineTo(52, 135)
+      ..lineTo(63, 135)
+      ..lineTo(58, 130)
+      ..lineTo(58, 100);
+    final legR = Path()
+      ..moveTo(68, 100)
+      ..lineTo(68, 130)
+      ..lineTo(70, 135)
+      ..lineTo(81, 135)
+      ..lineTo(76, 130)
+      ..lineTo(76, 100);
+    final faceWhite = Path()
+      ..moveTo(90, 50)
+      ..relativeArcToPoint(Offset(-0, 50),
+          radius: Radius.circular(15), clockwise: false)
+      ..lineTo(100, 90)
+      ..lineTo(110, 80);
+    canvas.translate(position.dx, position.dy);
+    canvas.scale(0.1);
+    if (leftLeg) canvas.drawPath(legL, Paint()..color = Colors.brown[400]!);
+    if (rightLeg) canvas.drawPath(legR, Paint()..color = Colors.brown[400]!);
+    canvas.drawPath(body, Paint()..color = Colors.blue[300]!);
+    canvas.drawPath(tail, Paint()..color = Colors.teal[400]!);
+    canvas.drawPath(faceWhite, Paint()..color = Colors.white.withOpacity(0.8));
+    canvas.drawPath(wing, Paint()..color = Colors.blue[500]!);
+    canvas.drawPath(tip, Paint()..color = Colors.brown[400]!);
+    canvas.drawPath(eye, Paint()..color = Colors.black);
+    canvas.drawPath(eyeWhite, Paint()..color = Colors.white);
+    canvas.drawPath(top, Paint()..color = Colors.blue[400]!);
+  }
+
+  @override
+  bool shouldRepaint(covariant DashPainter oldDelegate) {
+    return position != oldDelegate.position;
   }
 }
