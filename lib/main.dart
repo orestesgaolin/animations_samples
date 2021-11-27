@@ -1,4 +1,7 @@
+import 'package:animations_sample/fps_widget.dart';
+import 'package:animations_sample/pages/gravity_simulation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'pages/pages.dart';
 
@@ -16,7 +19,9 @@ class MyApp extends StatelessWidget {
         scrollbarTheme: ScrollbarThemeData(isAlwaysShown: true),
       ),
       debugShowCheckedModeBanner: false,
-      home: Dashboard(),
+      home: MyFpsWidget(
+        child: Dashboard(),
+      ),
     );
   }
 }
@@ -45,6 +50,7 @@ class _DashboardState extends State<Dashboard> {
     AppPage('Staggered animations', StaggeredAnimations()),
     AppPage('Custom controller', CustomController()),
     AppPage('Spring simulation', PhysicsAnimation()),
+    AppPage('Gravity simulation', GravitySimulationWidget()),
     AppPage('Material animations', MaterialAnimationsDemo()),
     AppPage('Funvas', FunvasDemo()),
   ];
@@ -161,6 +167,13 @@ class _AppDrawerState extends State<AppDrawer> {
               if (Scaffold.of(context).isDrawerOpen) {
                 Navigator.of(context).pop();
               }
+            },
+          ),
+          SwitchListTile(
+            value: context.watch<FpsState>().show,
+            title: Text('Show FPS'),
+            onChanged: (_) {
+              context.read<FpsState>().toggle();
             },
           ),
         ],
