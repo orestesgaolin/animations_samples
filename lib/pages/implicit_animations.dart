@@ -2,7 +2,6 @@ import 'dart:math' as math;
 import 'package:animations_sample/pages/implicit/implicit_counter.dart';
 import 'package:animations_sample/pages/implicit/implicit_loader.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 
 class ImplicitAnimations extends StatefulWidget {
   @override
