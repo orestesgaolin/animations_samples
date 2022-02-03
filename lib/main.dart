@@ -2,6 +2,7 @@ import 'package:animations_sample/fps_widget.dart';
 import 'package:animations_sample/pages/gravity_simulation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'pages/pages.dart';
 
@@ -169,6 +170,20 @@ class _AppDrawerState extends State<AppDrawer> {
               }
             },
           ),
+          ListTile(
+            leading: Icon(Icons.code),
+            title: Text('Source Code'),
+            onTap: () async {
+              if (Scaffold.of(context).isDrawerOpen) {
+                Navigator.of(context).pop();
+              }
+              final url = 'https://github.com/orestesgaolin/animations_samples';
+              if (await canLaunch(url)) {
+                launch(url);
+              }
+            },
+          ),
+          ThinDivider(),
           SwitchListTile(
             value: context.watch<FpsState>().show,
             title: Text('Show FPS'),
