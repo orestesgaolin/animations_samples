@@ -83,7 +83,7 @@ class TweenAnimationDemo extends StatelessWidget {
           );
         },
         child: Text(
-          'Hello Flutter Vikings',
+          'Hello Flutter Meetup!',
           textAlign: TextAlign.center,
         ),
       ),
