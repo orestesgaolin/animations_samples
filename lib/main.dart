@@ -68,30 +68,32 @@ class _DashboardState extends State<Dashboard> {
       },
     );
 
-    return Scaffold(
-      drawer: drawer,
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return Row(
-            children: <Widget>[
-              if (constraints.maxWidth < 800)
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: IconButton(
-                    icon: Icon(Icons.menu),
-                    onPressed: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                  ),
+    return SafeArea(
+      child: Scaffold(
+        drawer: drawer,
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            return Row(
+              children: <Widget>[
+                if (constraints.maxWidth < 800)
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: IconButton(
+                      icon: Icon(Icons.menu),
+                      onPressed: () {
+                        Scaffold.of(context).openDrawer();
+                      },
+                    ),
+                  )
+                else
+                  drawer,
+                Expanded(
+                  child: getPage(selectedIndex),
                 )
-              else
-                drawer,
-              Expanded(
-                child: getPage(selectedIndex),
-              )
-            ],
-          );
-        },
+              ],
+            );
+          },
+        ),
       ),
     );
   }
